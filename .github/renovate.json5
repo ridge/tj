@@ -1,0 +1,19 @@
+{
+  extends: ["config:base"],
+
+  enabledManagers: ["gomod"],
+  postUpdateOptions: ["gomodTidy"],
+
+  // Mark dependency updates PRs in Reviewable interface
+  labels: ["pr-update"],
+
+  // We don't care to live on the edge, so we can reduce churn
+  // by skipping minor versions quickly superseded by other
+  // minor versions
+  stabilityDays: 10,
+
+  // Wait for release to become stable before creating a PR
+  prCreation: "not-pending",
+
+  schedule: "before 3am",
+}
