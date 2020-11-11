@@ -1,4 +1,4 @@
-// A tool that takes a JSON file and produces tj tree from it
+// A tool that takes a JSON or YAML on standard input and produces tj tree from it
 package main
 
 import (
