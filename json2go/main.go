@@ -6,13 +6,16 @@ import (
 	"fmt"
 	"os"
 
+	"gopkg.in/yaml.v2"
+
 	"github.com/ridge/must"
 	"github.com/spf13/pflag"
 )
 
 func args() formatConfig {
-	var packageName, variableName, tjPrefix, tjPackage string
+	var format, packageName, variableName, tjPrefix, tjPackage string
 
+	pflag.StringVar(&format, "format", "json", "Input format to use: [json | yaml]")
 	pflag.StringVar(&packageName, "package", "", "Generate package declaration (requires --variable)")
 	pflag.StringVar(&variableName, "variable", "", "Generate variable declaration")
 	pflag.StringVar(&tjPrefix, "tj-prefix", "tj", "Import prefix for to use for tj package")
@@ -31,6 +34,7 @@ func args() formatConfig {
 
 	return formatConfig{
 		w:            os.Stdout,
+		format:       inputFormat(format),
 		packageName:  packageName,
 		variableName: variableName,
 		tjPrefix:     tjPrefix,
@@ -42,8 +46,33 @@ func main() {
 	cfg := args()
 
 	var val interface{}
-	must.OK(json.NewDecoder(os.Stdin).Decode(&val))
+
+	switch cfg.format {
+	case inputJSON:
+		must.OK(json.NewDecoder(os.Stdin).Decode(&val))
+	case inputYAML:
+		must.OK(yaml.NewDecoder(os.Stdin).Decode(&val))
+		val = convertYAML(val)
+	default:
+		panic(fmt.Sprintf("unsupported format %s", cfg.format))
+	}
 
 	formatHeader(cfg)
 	format(cfg, val)
+}
+
+func convertYAML(i interface{}) interface{} {
+	switch x := i.(type) {
+	case map[interface{}]interface{}:
+		m2 := map[string]interface{}{}
+		for k, v := range x {
+			m2[k.(string)] = convertYAML(v)
+		}
+		return m2
+	case []interface{}:
+		for i, v := range x {
+			x[i] = convertYAML(v)
+		}
+	}
+	return i
 }
