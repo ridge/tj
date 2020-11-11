@@ -51,7 +51,7 @@ func main() {
 		must.OK(json.NewDecoder(os.Stdin).Decode(&val))
 	case inputYAML:
 		must.OK(yaml.NewDecoder(os.Stdin).Decode(&val))
-		val = convertYAML(val)
+		val = keysToStrings(val)
 	default:
 		panic(fmt.Sprintf("unsupported format %s", cfg.format))
 	}
@@ -60,17 +60,17 @@ func main() {
 	format(cfg, val)
 }
 
-func convertYAML(i interface{}) interface{} {
+func keysToStrings(i interface{}) interface{} {
 	switch x := i.(type) {
 	case map[interface{}]interface{}:
 		m2 := map[string]interface{}{}
 		for k, v := range x {
-			m2[k.(string)] = convertYAML(v)
+			m2[k.(string)] = keysToStrings(v)
 		}
 		return m2
 	case []interface{}:
 		for i, v := range x {
-			x[i] = convertYAML(v)
+			x[i] = keysToStrings(v)
 		}
 	}
 	return i
