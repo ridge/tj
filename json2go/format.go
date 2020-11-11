@@ -62,6 +62,8 @@ func format(fcfg formatConfig, data interface{}) {
 		fmt.Fprintf(fcfg.w, "null")
 	case bool:
 		fmt.Fprintf(fcfg.w, "%t", v)
+	case int:
+		fmt.Fprintf(fcfg.w, "%d", v)
 	case float64:
 		fmt.Fprintf(fcfg.w, "%g", v)
 	case string:
