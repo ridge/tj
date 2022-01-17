@@ -1,5 +1,5 @@
 # Construct JSON without backing it up with Go structures
-[![GoDoc](https://godoc.org/github.com/ridge/tj?status.svg)](http://godoc.org/github.com/ridge/tj) [![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/ridge/tj)
+[![Go Reference](https://pkg.go.dev/badge/github.com/ridge/tj.svg)](https://pkg.go.dev/github.com/ridge/tj)
 
 Use `tj` to produce well-formed schemaless JSON:
 
