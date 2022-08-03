@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-
-	"github.com/ridge/tj"
 )
 
 type inputFormat string
@@ -23,7 +21,7 @@ type formatConfig struct {
 	tjPackage    string
 }
 
-func formatObject(fcfg formatConfig, obj tj.O) {
+func formatObject(fcfg formatConfig, obj map[string]interface{}) {
 	if len(obj) == 0 {
 		fmt.Fprintf(fcfg.w, "%s.O{}", fcfg.tjPrefix)
 		return
@@ -37,7 +35,7 @@ func formatObject(fcfg formatConfig, obj tj.O) {
 	fmt.Fprintf(fcfg.w, "}")
 }
 
-func formatArray(fcfg formatConfig, arr tj.A) {
+func formatArray(fcfg formatConfig, arr []interface{}) {
 	if len(arr) == 0 {
 		fmt.Fprintf(fcfg.w, "%s.A{}", fcfg.tjPrefix)
 		return
@@ -68,9 +66,9 @@ func format(fcfg formatConfig, data interface{}) {
 		fmt.Fprintf(fcfg.w, "%g", v)
 	case string:
 		fmt.Fprintf(fcfg.w, "%q", v)
-	case tj.A:
+	case []interface{}:
 		formatArray(fcfg, v)
-	case tj.O:
+	case map[string]interface{}:
 		formatObject(fcfg, v)
 	default:
 		panic(fmt.Errorf("unexpected type in JSON deserialization of %v: %T", data, data))
