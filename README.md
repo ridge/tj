@@ -33,7 +33,7 @@ once then it's time to switch to Go struct-backed JSON generation.
 
 ## Legal
 
-Copyright Tectonic Networks, Inc.
+Copyright Tectonic Labs Ltd.
 
 Licensed under [Apache 2.0](LICENSE) license.
 
