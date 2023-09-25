@@ -1,6 +1,8 @@
 # Construct JSON without backing it up with Go structures
 [![Go Reference](https://pkg.go.dev/badge/github.com/ridge/tj.svg)](https://pkg.go.dev/github.com/ridge/tj)
 
+This repository is archived. See https://github.com/dottedmag/tj for the current version.
+
 Use `tj` to produce well-formed schemaless JSON:
 
     json.Marshal(tj.O{
